@@ -33,7 +33,7 @@ public class AccountDAO implements DAOInterface<Account>{
         try 
         {
             Connection con=Utils.Connectdb();
-            String sql="Insert into Account (Username, Password, EmpID) values (?,?,?)";
+            String sql="Insert into TAKHOAN (TenTK,MatKhau,MaNV) values (?,?,?)";
             PreparedStatement pst=con.prepareStatement(sql);
             pst.setString(1,m.getUsername());
             pst.setString(2,m.getPassword());
@@ -55,7 +55,7 @@ public class AccountDAO implements DAOInterface<Account>{
         try
         {
             Connection con=Utils.Connectdb();
-            String sql="Update Account set MatKhau=?, MaNVQL=? where TenTK=?";
+            String sql="Update Account set MatKhau=?, MaNV=? where TenTK=?";
             PreparedStatement pst=con.prepareStatement(sql);
             pst.setString(1,m.getPassword());
             pst.setString(2,m.getEmpID());
@@ -100,7 +100,7 @@ public class AccountDAO implements DAOInterface<Account>{
             while (rs.next()) {
                 String UserName = rs.getString("TenTK");
                 String PassWord = rs.getString("MatKhau");
-                String EmpID = rs.getString("MaNVQL");
+                String EmpID = rs.getString("MaNV");
                 kq = new Account(UserName,PassWord,EmpID);
             }
             Utils.Closeconn(con);
@@ -121,7 +121,7 @@ public class AccountDAO implements DAOInterface<Account>{
             while (rs.next()) {
                 String UserName = rs.getString("TenTK");
                 String PassWord = rs.getString("MatKhau");
-                String EmpID = rs.getString("MaNVQL");
+                String EmpID = rs.getString("MaNV");
 
                 Account acc = new Account(UserName, PassWord, EmpID);
                 kq.add(acc);
