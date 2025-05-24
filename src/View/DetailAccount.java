@@ -145,11 +145,13 @@ public class DetailAccount extends javax.swing.JFrame {
         jLabel9.setText("Giới tính:");
         jLabel9.setToolTipText("");
 
+        jTextField7.setEditable(false);
         jTextField7.setText("jTextField7");
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel10.setText("Địa Chỉ: ");
 
+        jTextField8.setEditable(false);
         jTextField8.setText("jTextField8");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
