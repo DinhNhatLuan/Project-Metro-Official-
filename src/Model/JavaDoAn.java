@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package Model;
-
+import View.LoginFRAME;
 /**
  *
  * @author capta
@@ -15,6 +15,7 @@ public class JavaDoAn {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        new LoginFRAME().setVisible(true);
     }
     
 }

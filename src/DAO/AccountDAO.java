@@ -55,7 +55,7 @@ public class AccountDAO implements DAOInterface<Account>{
         try
         {
             Connection con=Utils.Connectdb();
-            String sql="Update Account set MatKhau=?, MaNV=? where TenTK=?";
+            String sql="Update TAIKHOAN set MatKhau=?, MaNV=? where TenTK=?";
             PreparedStatement pst=con.prepareStatement(sql);
             pst.setString(1,m.getPassword());
             pst.setString(2,m.getEmpID());
@@ -76,7 +76,7 @@ public class AccountDAO implements DAOInterface<Account>{
         try
         {
             Connection con=Utils.Connectdb();
-            String sql="Delete from Account where TenTK=?";
+            String sql="Delete from TAIKHOAN where TenTK=?";
             PreparedStatement pst=con.prepareStatement(sql);
             pst.setString(1,m.getUsername());
             kq=pst.executeUpdate();
@@ -93,7 +93,7 @@ public class AccountDAO implements DAOInterface<Account>{
         try
         {
             Connection con=Utils.Connectdb();
-            String sql="select * from Account where TenTK=?";
+            String sql="select * from TAIKHOAN where TenTK=?";
             PreparedStatement pst=con.prepareStatement(sql);
             pst.setString(1,m);
             ResultSet rs = pst.executeQuery();
@@ -115,7 +115,7 @@ public class AccountDAO implements DAOInterface<Account>{
         ArrayList<Account> kq = new ArrayList<Account>();
         try {
             Connection con = Utils.Connectdb();
-            String sql = "SELECT * FROM Account";
+            String sql = "SELECT * FROM TAIKHOAN";
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
