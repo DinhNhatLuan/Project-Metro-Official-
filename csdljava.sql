@@ -16,6 +16,7 @@ NgayVaoLam date,
 CaLam varchar(20),
 MaNVQL varchar(10)
 );
+
 Create table VE (
 MaVe varchar(10) not null,
 Gia int,
@@ -207,5 +208,7 @@ END$$
 
 DELIMITER ;
 
-
-
+//Nhap du lieu
+insert into NHANVIEN values('nv001','Bombardiro Crocodilo','Nhân viên quản lý','Bình Dương',1,
+'captainman@gmail.com','1234567',1000000, '2000-1-1','Sáng',null);
+insert into TAIKHOAN values('tkadmin001','123456','nv001');

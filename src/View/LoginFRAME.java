@@ -21,7 +21,12 @@ import DAO.AccountDAO;
 import DAO.EmployeeDAO;
 import Model.Employee;
 import View.Admin_GUI;
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Paths;
 
 public class LoginFRAME extends javax.swing.JFrame {
 
@@ -30,6 +35,21 @@ public class LoginFRAME extends javax.swing.JFrame {
      */
     public LoginFRAME() {
         initComponents();
+        if(Rememcheck.isSelected())
+        {
+            String filepath=Paths.get("src", "user", "user-pass.txt").toString();
+            try(BufferedReader reader=new BufferedReader(new FileReader(filepath))){
+                String username="";
+                String password="";
+                username=reader.readLine();
+                password=reader.readLine();
+                UserText.setText(username);
+                PassText.setText(password);
+            }
+            catch(IOException e){
+                System.err.println("Read-Write error: "+e.getMessage());
+            }
+        }
     }
 
     /**
@@ -55,7 +75,7 @@ public class LoginFRAME extends javax.swing.JFrame {
         UserText = new javax.swing.JTextField();
         LoginButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        Rememcheck = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         PassText = new javax.swing.JPasswordField();
 
@@ -134,12 +154,12 @@ public class LoginFRAME extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        jCheckBox1.setSelected(true);
-        jCheckBox1.setText("Remember this account");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        Rememcheck.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        Rememcheck.setSelected(true);
+        Rememcheck.setText("Remember this account");
+        Rememcheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                RememcheckActionPerformed(evt);
             }
         });
 
@@ -188,7 +208,7 @@ public class LoginFRAME extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Rememcheck, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(22, 22, 22))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(PassText)
@@ -216,7 +236,7 @@ public class LoginFRAME extends javax.swing.JFrame {
                         .addGap(12, 12, 12)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(Rememcheck, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -245,9 +265,9 @@ public class LoginFRAME extends javax.swing.JFrame {
         CheckLogin();
     }//GEN-LAST:event_LoginButtonActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void RememcheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RememcheckActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_RememcheckActionPerformed
 
     private void UserTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserTextActionPerformed
         // TODO add your handling code here:
@@ -339,21 +359,38 @@ public class LoginFRAME extends javax.swing.JFrame {
                                 admin.setVisible(true);
                                 admin.setAccount(acc);
                                 admin.setEmployee(emp);
-                                  
+                                break;
                             case "Nhân viên bán vé":
                                 JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
                                 dispose();
                                 //Bán vé GUI
-                                
+                                break;
                             case "Nhân viên lái tàu":
                                 JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
                                 dispose();
                                 //Lái tàu GUI
-                                
+                                break;
                             default: 
                                 JOptionPane.showMessageDialog(this,"Tài khoản của bạn bị cấm","Thông báo",JOptionPane.WARNING_MESSAGE);
                         }
-                    }
+                            String filepath=Paths.get("src", "user", "user-pass.txt").toString();
+                            try(BufferedWriter writer=new BufferedWriter(new FileWriter(filepath)))
+                            {
+                                if(Rememcheck.isSelected())
+                                {
+                                    writer.write(Username+"\n");
+                                    writer.write(PassWord);
+                                }
+                                else
+                                {
+                                    writer.write("");
+                                }
+                            }
+                            catch(IOException e)
+                            {
+                                System.err.println("Read-Write error: "+e.getMessage());
+                            }
+                    }    
                     else
                     {
                         JOptionPane.showMessageDialog(this,"Sai mật khẩu","Cảnh báo",JOptionPane.WARNING_MESSAGE);
@@ -371,8 +408,8 @@ public class LoginFRAME extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton LoginButton;
     private javax.swing.JPasswordField PassText;
+    private javax.swing.JCheckBox Rememcheck;
     private javax.swing.JTextField UserText;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
