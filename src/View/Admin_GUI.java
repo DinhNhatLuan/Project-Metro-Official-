@@ -8,11 +8,24 @@ package View;
  *
  * @author COMPUTER
  */
+import Model.Account;
+import Model.Employee;
 public class Admin_GUI extends javax.swing.JFrame {
 
     /**
      * Creates new form Admin_GUI
      */
+    private Account acc;
+    private Employee emp;
+    
+    public void setAccount(Account acc)
+    {
+        this.acc=acc;
+    }
+    public void setEmployee(Employee emp)
+    {
+        this.emp=emp;
+    }
     public Admin_GUI() {
         initComponents();
     }

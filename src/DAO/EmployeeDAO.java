@@ -109,6 +109,8 @@ public class EmployeeDAO implements DAOInterface<Employee>{
             PreparedStatement pst=con.prepareStatement(sql);
             pst.setString(1,m);
             ResultSet rs=pst.executeQuery();
+             while(rs.next())
+            {
             String Name=rs.getString("HoTen");
             String Role=rs.getString("ChucVu");
             String Address=rs.getString("DiaChi");
@@ -120,6 +122,7 @@ public class EmployeeDAO implements DAOInterface<Employee>{
             String Phase=rs.getString("CaLam");
             String ManagerID=rs.getString("MaNVQL");
             emp=new Employee(m,Name,Role,Address,Email,PhoneNum,Phase,ManagerID,Salary,Gender,SWDay);
+            }
             Utils.Closeconn(con);
         }
         catch (Exception e)
