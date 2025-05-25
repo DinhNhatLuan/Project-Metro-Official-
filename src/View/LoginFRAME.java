@@ -331,7 +331,9 @@ public class LoginFRAME extends javax.swing.JFrame {
     public void CheckLogin()
     {
         String Username=UserText.getText();
-        String PassWord=PassText.getText();
+        char[] passwordChars = PassText.getPassword();
+        String PassWord = new String(passwordChars); 
+        java.util.Arrays.fill(passwordChars, ' '); 
         if(Username.equals("")||PassWord.equals(""))
         {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
