@@ -16,9 +16,9 @@ public class Utils {
         String driver="com.mysql.cj.jdbc.Driver";
         try{
             Class.forName(driver);
-            String url="jdbc:mysql://localhost:3306/metro";
+            String url = "jdbc:mysql://localhost:3306/project-metro";
             String username="root";
-            String password="Mortos479@";
+            String password="Luanlan1234***";
             return DriverManager.getConnection(url,username,password);
         }
         catch (Exception e){
