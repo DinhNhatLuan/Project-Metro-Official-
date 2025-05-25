@@ -1,22 +1,35 @@
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+/**
+
 package Model;
 
-import java.sql.Date;
-import java.sql.Time;
+/**
+ *
+ * @author Acer
+ */
+package Model;
+
+import java.time.LocalTime;
+import java.time.LocalDate;
 
 public class Schedule {
     private String scheduleID;
-    private java.sql.Date departureDate;
-    private java.sql.Time departureTime;
+    private LocalDate departureDate;
+    private LocalTime departureTime;
     private String status;
     private String trainID;
     private String employeeID;
     private int reservedTicketCount;
 
     public Schedule() {
-        super()
+        super();
     }
 
-    public Schedule(String scheduleID, Date departureDate, Time departureTime,
+    public Schedule(String scheduleID, LocalDate departureDate, LocalTime departureTime,
                     String status, String trainID, String employeeID, int reservedTicketCount) {
         this.scheduleID = scheduleID;
         this.departureDate = departureDate;
@@ -37,19 +50,19 @@ public class Schedule {
         this.scheduleID = scheduleID;
     }
 
-    public Date getDepartureDate() {
+    public LocalDate getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(Date departureDate) {
+    public void setDepartureDate(LocalDate departureDate) {
         this.departureDate = departureDate;
     }
 
-    public Time getDepartureTime() {
+    public LocalTime getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(Time departureTime) {
+    public void setDepartureTime(LocalTime departureTime) {
         this.departureTime = departureTime;
     }
 

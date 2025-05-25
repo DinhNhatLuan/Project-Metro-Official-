@@ -2,8 +2,10 @@ package DAO;
 
 import Model.Schedule;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Time;
 import java.util.ArrayList;
 import Database.Utils;
 
@@ -25,8 +27,8 @@ public class ScheduleDAO implements DAOInterface<Schedule> {
             String sql = "INSERT INTO LICHTRINH (MaLT, NgayKH, GioKH, TinhTrang, MaTau, MaNV, SoLuongVeDB) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, s.getScheduleID());
-            pst.setDate(2, s.getDepartureDate());
-            pst.setTime(3, s.getDepartureTime());
+            pst.setDate(2, Date.valueOf(s.getDepartureDate()));
+            pst.setTime(3, Time.valueOf(s.getDepartureTime()));
             pst.setString(4, s.getStatus());
             pst.setString(5, s.getTrainID());
             pst.setString(6, s.getEmployeeID());
@@ -47,8 +49,8 @@ public class ScheduleDAO implements DAOInterface<Schedule> {
             Connection con = Utils.Connectdb();
             String sql = "UPDATE LICHTRINH SET NgayKH=?, GioKH=?, TinhTrang=?, MaTau=?, MaNV=?, SoLuongVeDB=? WHERE MaLT=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setDate(1, s.getDepartureDate());
-            pst.setTime(2, s.getDepartureTime());
+            pst.setDate(1, Date.valueOf(s.getDepartureDate()));
+            pst.setTime(2, Time.valueOf(s.getDepartureTime()));
             pst.setString(3, s.getStatus());
             pst.setString(4, s.getTrainID());
             pst.setString(5, s.getEmployeeID());
@@ -91,8 +93,8 @@ public class ScheduleDAO implements DAOInterface<Schedule> {
             if (rs.next()) {
                 schedule = new Schedule(
                     rs.getString("MaLT"),
-                    rs.getDate("NgayKH"),
-                    rs.getTime("GioKH"),
+                    rs.getDate("NgayKH").toLocalDate(),
+                    rs.getTime("GioKH").toLocalTime(),
                     rs.getString("TinhTrang"),
                     rs.getString("MaTau"),
                     rs.getString("MaNV"),
@@ -117,8 +119,8 @@ public class ScheduleDAO implements DAOInterface<Schedule> {
             while (rs.next()) {
                 Schedule schedule = new Schedule(
                     rs.getString("MaLT"),
-                    rs.getDate("NgayKH"),
-                    rs.getTime("GioKH"),
+                    rs.getDate("NgayKH").toLocalDate(),
+                    rs.getTime("GioKH").toLocalTime(),
                     rs.getString("TinhTrang"),
                     rs.getString("MaTau"),
                     rs.getString("MaNV"),
