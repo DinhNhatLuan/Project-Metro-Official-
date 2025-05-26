@@ -118,9 +118,9 @@ public class SuaNhanVien extends javax.swing.JFrame {
 
         jLabel12.setText("Ca làm");
 
-        jTextField7.setText("jTextField3");
+        jTextField7.setText("jTextField7");
 
-        jTextField8.setText("jTextField3");
+        jTextField8.setText("jTextField8");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
