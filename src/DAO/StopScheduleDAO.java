@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import Database.Utils;
-import java.sql.LocalDateTime;
+import java.sql.Timestamp;
 
 public class StopScheduleDAO implements DAOInterface<StopSchedule> {
 
@@ -28,8 +28,8 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, s.getScheduleId());
             pst.setString(2, s.getStationId());
-            pst.setLocalDateTime(3, s.getArrivalTime());
-            pst.setTimestamp(4, s.getDepartureTime());
+            pst.setTimestamp(3, java.sql.Timestamp.valueOf(s.getArrivalTime()));
+            pst.setTimestamp(4, java.sql.Timestamp.valueOf(s.getDepartureTime()));
             pst.setInt(5, s.getOrderNumber());
             result = pst.executeUpdate();
             Utils.Closeconn(con);
@@ -46,8 +46,8 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             Connection con = Utils.Connectdb();
             String sql = "UPDATE LICHDUNG SET GioDen=?, GioDi=?, ThuTu=? WHERE MaLT=? AND MaGT=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setTimestamp(1, s.getArrivalTime());
-            pst.setTimestamp(2, s.getDepartureTime());
+            pst.setTimestamp(1, java.sql.Timestamp.valueOf(s.getArrivalTime()));
+            pst.setTimestamp(2, java.sql.Timestamp.valueOf(s.getDepartureTime()));
             pst.setInt(3, s.getOrderNumber());
             pst.setString(4, s.getScheduleId());
             pst.setString(5, s.getStationId());
@@ -84,11 +84,11 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 StopSchedule s = new StopSchedule(
-                        rs.getString("MaLT"),
-                        rs.getString("MaGT"),
-                        rs.getTimestamp("GioDen"),
-                        rs.getTimestamp("GioDi"),
-                        rs.getInt("ThuTu")
+                    rs.getString("MaLT"),
+                    rs.getString("MaGT"),
+                    rs.getTimestamp("GioDen").toLocalDateTime(),
+                    rs.getTimestamp("GioDi").toLocalDateTime(),
+                    rs.getInt("ThuTu")
                 );
                 result.add(s);
             }
@@ -109,11 +109,11 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 s = new StopSchedule(
-                        rs.getString("MaLT"),
-                        rs.getString("MaGT"),
-                        rs.getTimestamp("GioDen"),
-                        rs.getTimestamp("GioDi"),
-                        rs.getInt("ThuTu")
+                    rs.getString("MaLT"),
+                    rs.getString("MaGT"),
+                    rs.getTimestamp("GioDen").toLocalDateTime(),
+                    rs.getTimestamp("GioDi").toLocalDateTime(),
+                    rs.getInt("ThuTu")
                 );
             }
             Utils.Closeconn(con);
