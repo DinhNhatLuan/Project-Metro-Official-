@@ -1,6 +1,6 @@
 package Model;
 
-import java.time.Timestamp;
+import java.time.LocalDateTime;
 
 public class StopSchedule {
     private String scheduleId;

@@ -1,3 +1,6 @@
+package Model;
+
+
 public class Account {
     private String Username, Password, EmpID;
     

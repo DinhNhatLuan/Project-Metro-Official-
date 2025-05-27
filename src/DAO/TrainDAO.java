@@ -1,5 +1,9 @@
 package DAO;
 
+// import Model.Train; // Commented out because the class cannot be resolved
+// Please ensure the Train class exists and update the import accordingly, for example:
+// import your.actual.package.path.Train;
+// import Model.Train; // Update this import to the correct package path for Train
 import Model.Train;
 import java.sql.*;
 import java.util.ArrayList;
