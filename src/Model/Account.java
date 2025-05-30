@@ -2,12 +2,13 @@ package Model;
 
 
 public class Account {
-    private String Username, Password, EmpID;
+    private String Username, Password;
+    private int EmpID;
     
     public Account(){
         super();
     }
-    public Account(String Username, String Password, String EmpID){
+    public Account(String Username, String Password, int EmpID){
         this.Username=Username;
         this.Password=Password;
         this.EmpID=EmpID;
@@ -32,11 +33,11 @@ public class Account {
     }
 
     // Getter và Setter cho EmpID
-    public String getEmpID() {
+    public int getEmpID() {
         return EmpID;
     }
 
-    public void setEmpID(String EmpID) {
+    public void setEmpID(int EmpID) {
         this.EmpID = EmpID;
     }
 }

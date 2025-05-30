@@ -84,8 +84,8 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 StopSchedule s = new StopSchedule(
-                    rs.getString("MaLT"),
-                    rs.getString("MaGT"),
+                    rs.getInt("MaLT"),
+                    rs.getInt("MaGT"),
                     rs.getTimestamp("GioDen").toLocalDateTime(),
                     rs.getTimestamp("GioDi").toLocalDateTime(),
                     rs.getInt("ThuTu")
@@ -99,18 +99,19 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
         return result;
     }
     @Override
-    public StopSchedule selectbyId(String scheduleId) {
+    public StopSchedule selectbyId(int id, String m) {
         StopSchedule s = null;
         try {
             Connection con = Utils.Connectdb();
-            String sql = "SELECT * FROM LICHDUNG WHERE MaLT=?";
+            String sql = "SELECT * FROM LICHDUNG WHERE MaLT=? AND MaGT=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, scheduleId);
+            pst.setInt(1, id);
+            pst.setInt(2, Integer.parseInt(m));
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 s = new StopSchedule(
-                    rs.getString("MaLT"),
-                    rs.getString("MaGT"),
+                    rs.getInt("MaLT"),
+                    rs.getInt("MaGT"),
                     rs.getTimestamp("GioDen").toLocalDateTime(),
                     rs.getTimestamp("GioDi").toLocalDateTime(),
                     rs.getInt("ThuTu")

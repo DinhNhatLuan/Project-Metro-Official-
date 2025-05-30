@@ -18,13 +18,13 @@ import java.time.LocalDate;
  * @author capta
  */
 public class EmployeeDAO implements DAOInterface<Employee>{
-    public static EmployeeDAO empdao;
+    public static EmployeeDAO instance;
     public static EmployeeDAO getInstance(){
-        if(empdao==null)
+        if(instance==null)
         {
-            empdao=new EmployeeDAO();
+            instance=new EmployeeDAO();
         }
-        return empdao;
+        return instance;
     }
     
     @Override
@@ -34,20 +34,19 @@ public class EmployeeDAO implements DAOInterface<Employee>{
         try 
         {
             Connection con=Utils.Connectdb();
-            String sql="Insert into NHANVIEN (MaNV,HoTen,ChucVu,DiaChi,GioiTinh,Email,SoDT,Luong,NgayVaoLam,CaLam,MaNVQL) values "+
-                    "(?,?,?,?,?,?,?,?,?,?,?)";
+            String sql="Insert into NHANVIEN (HoTen,ChucVu,DiaChi,GioiTinh,Email,SoDT,Luong,NgayVaoLam,CaLam,MaNVQL,NgaySinh) values (?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst=con.prepareStatement(sql);
-            pst.setString(1, m.getEmpID());
-            pst.setString(2,m.getName());
-            pst.setString(3, m.getRole());
-            pst.setString(4,m.getAddress());
-            pst.setBoolean(5, m.getGender());
-            pst.setString(6,m.getEmail());
-            pst.setString(7, m.getPhoneNum());
-            pst.setInt(8,m.getSalary());
-            pst.setDate(9,Date.valueOf(m.getSWDay()));
-            pst.setString(10,m.getPhase());
-            pst.setString(11,m.getManagerID());
+            pst.setString(1,m.getName());
+            pst.setString(2, m.getRole());
+            pst.setString(3,m.getAddress());
+            pst.setBoolean(4, m.getGender());
+            pst.setString(5,m.getEmail());
+            pst.setString(6, m.getPhoneNum());
+            pst.setInt(7,m.getSalary());
+            pst.setDate(8,Date.valueOf(m.getSWDay()));
+            pst.setString(9,m.getPhase());
+            pst.setInt(10,m.getManagerID());
+            pst.setDate(11,Date.valueOf(m.getBirthDay()));
             kq=pst.executeUpdate();
         }
         catch (Exception e){
@@ -58,13 +57,12 @@ public class EmployeeDAO implements DAOInterface<Employee>{
     @Override
     public int update(Employee m)
     {
-                int kq=0;
+        int kq=0;
         try 
         {
             Connection con=Utils.Connectdb();
-            String sql="Update NHANVIEN set HoTen=?,ChucVu=?,DiaChi=?,GioiTinh=?,Email=?,SoDT=?,Luong=?,NgayVaoLam=?,CaLam=?,MaNVQL=? where MaNV=?";
+            String sql="Update NHANVIEN set HoTen=?,ChucVu=?,DiaChi=?,GioiTinh=?,Email=?,SoDT=?,Luong=?,NgayVaoLam=?,CaLam=?,MaNVQL=?,NgaySinh=? where MaNV=?";
             PreparedStatement pst=con.prepareStatement(sql);
-            pst.setString(11, m.getEmpID());
             pst.setString(1,m.getName());
             pst.setString(2, m.getRole());
             pst.setString(3,m.getAddress());
@@ -74,7 +72,9 @@ public class EmployeeDAO implements DAOInterface<Employee>{
             pst.setInt(7,m.getSalary());
             pst.setDate(8,Date.valueOf(m.getSWDay()));
             pst.setString(9,m.getPhase());
-            pst.setString(10,m.getManagerID());
+            pst.setInt(10,m.getManagerID());
+            pst.setDate(11,Date.valueOf(m.getBirthDay()));
+            pst.setInt(12, m.getEmpID());
             kq=pst.executeUpdate();
         }
         catch (Exception e){
@@ -91,7 +91,7 @@ public class EmployeeDAO implements DAOInterface<Employee>{
             Connection con=Utils.Connectdb();
             String sql="Delete from NHANVIEN where MaNV=?";
             PreparedStatement pst=con.prepareStatement(sql);
-            pst.setString(1, m.getEmpID());
+            pst.setInt(1, m.getEmpID());
             kq=pst.executeUpdate();
         }
         catch (Exception e){
@@ -100,17 +100,18 @@ public class EmployeeDAO implements DAOInterface<Employee>{
         return kq;
     }
     @Override
-    public Employee selectbyId(String m)
+    public Employee selectbyId(int id, String m)
     {
         Employee emp=null;
         try{
             Connection con=Utils.Connectdb();
             String sql="Select * from NHANVIEN where MaNV=?";
             PreparedStatement pst=con.prepareStatement(sql);
-            pst.setString(1,m);
+            pst.setInt(1,id);
             ResultSet rs=pst.executeQuery();
              while(rs.next())
             {
+            int EmpID=rs.getInt("MaNV");
             String Name=rs.getString("HoTen");
             String Role=rs.getString("ChucVu");
             String Address=rs.getString("DiaChi");
@@ -120,8 +121,9 @@ public class EmployeeDAO implements DAOInterface<Employee>{
             int Salary=rs.getInt("Luong");
             LocalDate SWDay=rs.getDate("NgayVaoLam").toLocalDate();
             String Phase=rs.getString("CaLam");
-            String ManagerID=rs.getString("MaNVQL");
-            emp=new Employee(m,Name,Role,Address,Email,PhoneNum,Phase,ManagerID,Salary,Gender,SWDay);
+            int ManagerID=rs.getInt("MaNVQL");
+            LocalDate BirthDay=rs.getDate("NgaySinh").toLocalDate();
+            emp=new Employee(EmpID,Name,Role,Address,Email,PhoneNum,Phase,ManagerID,Salary,Gender,SWDay,BirthDay);
             }
             Utils.Closeconn(con);
         }
@@ -134,7 +136,7 @@ public class EmployeeDAO implements DAOInterface<Employee>{
     @Override
     public ArrayList<Employee> selectAll()
     {
-        ArrayList<Employee> group=null;
+        ArrayList<Employee> group=new ArrayList<>();
         try{
             Connection con=Utils.Connectdb();
             String sql="Select * from NHANVIEN";
@@ -142,7 +144,7 @@ public class EmployeeDAO implements DAOInterface<Employee>{
             ResultSet rs=pst.executeQuery();
             while(rs.next())
             {
-            String EmpID=rs.getString("MaNV");
+            int EmpID=rs.getInt("MaNV");
             String Name=rs.getString("HoTen");
             String Role=rs.getString("ChucVu");
             String Address=rs.getString("DiaChi");
@@ -152,8 +154,9 @@ public class EmployeeDAO implements DAOInterface<Employee>{
             int Salary=rs.getInt("Luong");
             LocalDate SWDay=rs.getDate("NgayVaoLam").toLocalDate();
             String Phase=rs.getString("CaLam");
-            String ManagerID=rs.getString("MaNVQL");
-            Employee emp=new Employee(EmpID,Name,Role,Address,Email,PhoneNum,Phase,ManagerID,Salary,Gender,SWDay);
+            int ManagerID=rs.getInt("MaNVQL");
+            LocalDate BirthDay=rs.getDate("NgaySinh").toLocalDate();
+            Employee emp=new Employee(EmpID,Name,Role,Address,Email,PhoneNum,Phase,ManagerID,Salary,Gender,SWDay,BirthDay);
             group.add(emp);
             }
             Utils.Closeconn(con);

@@ -345,7 +345,7 @@ public class LoginFRAME extends javax.swing.JFrame {
         {
             try 
             {
-                Account acc=AccountDAO.getInstance().selectbyId(Username);
+                Account acc=AccountDAO.getInstance().selectbyId(0,Username);
                 if(acc==null)
                 {
                     JOptionPane.showMessageDialog(this, "Tài khoản của bạn không tồn tại", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
@@ -354,7 +354,7 @@ public class LoginFRAME extends javax.swing.JFrame {
                 {
                     if(acc.getPassword().equals(PassWord))
                     {
-                        Employee emp=EmployeeDAO.getInstance().selectbyId(acc.getEmpID());
+                        Employee emp=EmployeeDAO.getInstance().selectbyId(acc.getEmpID(),"");
                         String Role=emp.getRole();
                         switch (Role){
                             case "Nhân viên quản lý":

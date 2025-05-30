@@ -13,6 +13,6 @@ public interface DAOInterface<T> {
     public int insert(T m);
     public int update(T m);
     public int delete(T m);
-    public T selectbyId(String m);
+    public T selectbyId(int id, String m);
     public ArrayList<T> selectAll();
 }

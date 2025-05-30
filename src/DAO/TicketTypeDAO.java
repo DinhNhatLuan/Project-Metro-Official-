@@ -72,19 +72,19 @@ public class TicketTypeDAO implements DAOInterface<TicketType> {
         return result;
     }
     @Override
-    public TicketType selectbyId(String ticketTypeId) {
+    public TicketType selectbyId(int id, String m) {
         TicketType tt = null;
         try {
             Connection con = Utils.Connectdb();
             String sql = "SELECT * FROM LOAIVE WHERE MaLoaiVe=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, ticketTypeId);
+            pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
                 String description = rs.getString("MoTa");
                 int basePrice = rs.getInt("GiaGoc");
-                tt = new TicketType(ticketTypeId, description, basePrice);
+                tt = new TicketType(id, description, basePrice);
             }
             Utils.Closeconn(con);
         } catch (Exception e) {

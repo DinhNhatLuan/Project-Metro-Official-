@@ -11,7 +11,7 @@ package Model;
  * @author Acer
  */
 public class TicketType {
-    private String ticketTypeID;
+    private int ticketTypeID;
     private String description;
     private int basePrice;
 

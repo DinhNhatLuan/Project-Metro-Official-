@@ -17,28 +17,27 @@ import java.util.ArrayList;
  * @author capta
  */
 public class AccountDAO implements DAOInterface<Account>{
-    public static AccountDAO accdao;
+    public static AccountDAO instance;
     public static AccountDAO getInstance()
     {
-        if(accdao==null)
+        if(instance==null)
         {
-            accdao=new AccountDAO();
+            instance=new AccountDAO();
         }
-        return accdao;
+        return instance;
     }
     @Override
     public int insert(Account m)
     {
         int kq=0;
-        try 
+        try
         {
             Connection con=Utils.Connectdb();
-            String sql="Insert into TAKHOAN (TenTK,MatKhau,MaNV) values (?,?,?)";
+            String sql="Insert into TAIKHOAN (TenTK,MatKhau,MaNV) values (?,?,?)";
             PreparedStatement pst=con.prepareStatement(sql);
             pst.setString(1,m.getUsername());
             pst.setString(2,m.getPassword());
-            pst.setString(3,m.getEmpID());
-            
+            pst.setInt(3,m.getEmpID());
             kq=pst.executeUpdate();
             Utils.Closeconn(con);
         }
@@ -55,11 +54,11 @@ public class AccountDAO implements DAOInterface<Account>{
         try
         {
             Connection con=Utils.Connectdb();
-            String sql="Update TAIKHOAN set MatKhau=?, MaNV=? where TenTK=?";
+            String sql="Update TAIKHOAN set MatKhau=?, EmpID=? where TenTK=?";
             PreparedStatement pst=con.prepareStatement(sql);
             pst.setString(1,m.getPassword());
-            pst.setString(2,m.getEmpID());
-            pst.setString(3,m.getUsername());
+            pst.setString(2,m.getUsername());
+            pst.setInt(3,m.getEmpID());
             kq=pst.executeUpdate();
             Utils.Closeconn(con);
         }
@@ -88,7 +87,7 @@ public class AccountDAO implements DAOInterface<Account>{
         }
         return kq;
     }
-    public Account selectbyId(String m){
+    public Account selectbyId(int id, String m){
         Account kq=null;
         try
         {
@@ -100,7 +99,7 @@ public class AccountDAO implements DAOInterface<Account>{
             while (rs.next()) {
                 String UserName = rs.getString("TenTK");
                 String PassWord = rs.getString("MatKhau");
-                String EmpID = rs.getString("MaNV");
+                int EmpID = rs.getInt("MaNV");
                 kq = new Account(UserName,PassWord,EmpID);
             }
             Utils.Closeconn(con);
@@ -121,11 +120,11 @@ public class AccountDAO implements DAOInterface<Account>{
             while (rs.next()) {
                 String UserName = rs.getString("TenTK");
                 String PassWord = rs.getString("MatKhau");
-                String EmpID = rs.getString("MaNV");
-
+                int EmpID = rs.getInt("MaNV");
                 Account acc = new Account(UserName, PassWord, EmpID);
                 kq.add(acc);
             }
+            Utils.Closeconn(con);
         } catch (Exception e) {
             e.printStackTrace();
         }
