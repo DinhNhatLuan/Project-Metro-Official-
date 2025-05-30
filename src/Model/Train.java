@@ -1,7 +1,7 @@
 package Model;
 
 public class Train {
-    private String trainID;
+    private int trainID;
     private String trainName;
     private int capacity;
 
@@ -9,17 +9,17 @@ public class Train {
         super();
     }
 
-    public Train(String trainID, String trainName, int capacity) {
+    public Train(int trainID, String trainName, int capacity) {
         this.trainID = trainID;
         this.trainName = trainName;
         this.capacity = capacity;
     }
 
-    public String getTrainID() {
+    public int getTrainID() {
         return trainID;
     }
 
-    public void setTrainID(String trainID) {
+    public void setTrainID(int trainID) {
         this.trainID = trainID;
     }
 

@@ -26,8 +26,8 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             Connection con = Utils.Connectdb();
             String sql = "INSERT INTO LICHDUNG (MaLT, MaGT, GioDen, GioDi, ThuTu) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, s.getScheduleId());
-            pst.setString(2, s.getStationId());
+            pst.setInt(1, s.getScheduleId());
+            pst.setInt(2, s.getStationId());
             pst.setTimestamp(3, java.sql.Timestamp.valueOf(s.getArrivalTime()));
             pst.setTimestamp(4, java.sql.Timestamp.valueOf(s.getDepartureTime()));
             pst.setInt(5, s.getOrderNumber());
@@ -49,8 +49,8 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             pst.setTimestamp(1, java.sql.Timestamp.valueOf(s.getArrivalTime()));
             pst.setTimestamp(2, java.sql.Timestamp.valueOf(s.getDepartureTime()));
             pst.setInt(3, s.getOrderNumber());
-            pst.setString(4, s.getScheduleId());
-            pst.setString(5, s.getStationId());
+            pst.setInt(4, s.getScheduleId());
+            pst.setInt(5, s.getStationId());
             result = pst.executeUpdate();
             Utils.Closeconn(con);
         } catch (Exception e) {
@@ -65,8 +65,8 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             Connection con = Utils.Connectdb();
             String sql = "DELETE FROM LICHDUNG WHERE MaLT=? AND MaGT=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, s.getScheduleId());
-            pst.setString(2, s.getStationId());
+            pst.setInt(1, s.getScheduleId());
+            pst.setInt(2, s.getStationId());
             result = pst.executeUpdate();
             Utils.Closeconn(con);
         } catch (Exception e) {

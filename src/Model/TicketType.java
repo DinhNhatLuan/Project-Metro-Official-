@@ -20,17 +20,17 @@ public class TicketType {
         super();
     }
 
-    public TicketType(String ticketTypeID, String description, int basePrice) {
+    public TicketType(int ticketTypeID, String description, int basePrice) {
         this.ticketTypeID = ticketTypeID;
         this.description = description;
         this.basePrice = basePrice;
     }
 
-    public String getTicketTypeID() {
+    public int getTicketTypeID() {
         return ticketTypeID;
     }
 
-    public void setTicketTypeID(String ticketTypeID) {
+    public void setTicketTypeID(int ticketTypeID) {
         this.ticketTypeID = ticketTypeID;
     }
 
