@@ -1,17 +1,17 @@
 package Model;
 
-import java.time.Timestamp;
+import java.time.LocalDateTime;
 
 public class StopSchedule {
-    private String scheduleId;
-    private String stationId;
+    private int scheduleId;
+    private int stationId;
     private LocalDateTime arrivalTime;
     private LocalDateTime departureTime;
     private int orderNumber;
 
     public StopSchedule() {}
 
-    public StopSchedule(String scheduleId, String stationId, LocalDateTime arrivalTime, LocalDateTime departureTime, int orderNumber) {
+    public StopSchedule(int scheduleId, int stationId, LocalDateTime arrivalTime, LocalDateTime departureTime, int orderNumber) {
         this.scheduleId = scheduleId;
         this.stationId = stationId;
         this.arrivalTime = arrivalTime;
@@ -19,19 +19,19 @@ public class StopSchedule {
         this.orderNumber = orderNumber;
     }
 
-    public String getScheduleId() {
+    public int getScheduleId() {
         return scheduleId;
     }
 
-    public void setScheduleId(String scheduleId) {
+    public void setScheduleId(int scheduleId) {
         this.scheduleId = scheduleId;
     }
 
-    public String getStationId() {
+    public int getStationId() {
         return stationId;
     }
 
-    public void setStationId(String stationId) {
+    public void setStationId(int stationId) {
         this.stationId = stationId;
     }
 

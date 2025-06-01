@@ -82,13 +82,13 @@ public class ScheduleDAO implements DAOInterface<Schedule> {
     }
 
     @Override
-    public Schedule selectbyId(String id) {
+    public Schedule selectbyId(int id, String m) {
         Schedule schedule = null;
         try {
             Connection con = Utils.Connectdb();
             String sql = "SELECT * FROM LICHTRINH WHERE MaLT=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, id);
+            pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 schedule = new Schedule(

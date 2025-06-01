@@ -24,7 +24,7 @@ public class TicketTypeDAO implements DAOInterface<TicketType> {
             Connection con = Utils.Connectdb();
             String sql = "INSERT INTO LOAIVE (MaLoaiVe, MoTa, GiaGoc) VALUES (?, ?, ?)";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, t.getTicketTypeID());
+            pst.setInt(1, t.getTicketTypeID());
             pst.setString(2, t.getDescription());
             pst.setInt(3, t.getBasePrice());
 
@@ -45,7 +45,7 @@ public class TicketTypeDAO implements DAOInterface<TicketType> {
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, t.getDescription());
             pst.setInt(2, t.getBasePrice());
-            pst.setString(3, t.getTicketTypeID());
+            pst.setInt(3, t.getTicketTypeID());
 
             result = pst.executeUpdate();
             Utils.Closeconn(con);
@@ -62,7 +62,7 @@ public class TicketTypeDAO implements DAOInterface<TicketType> {
             Connection con = Utils.Connectdb();
             String sql = "DELETE FROM LOAIVE WHERE MaLoaiVe=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, t.getTicketTypeID());
+            pst.setInt(1, t.getTicketTypeID());
 
             result = pst.executeUpdate();
             Utils.Closeconn(con);
@@ -72,19 +72,19 @@ public class TicketTypeDAO implements DAOInterface<TicketType> {
         return result;
     }
     @Override
-    public TicketType selectbyId(String ticketTypeId) {
+    public TicketType selectbyId(int id, String m) {
         TicketType tt = null;
         try {
             Connection con = Utils.Connectdb();
             String sql = "SELECT * FROM LOAIVE WHERE MaLoaiVe=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, ticketTypeId);
+            pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
                 String description = rs.getString("MoTa");
                 int basePrice = rs.getInt("GiaGoc");
-                tt = new TicketType(ticketTypeId, description, basePrice);
+                tt = new TicketType(id, description, basePrice);
             }
             Utils.Closeconn(con);
         } catch (Exception e) {
@@ -103,7 +103,7 @@ public class TicketTypeDAO implements DAOInterface<TicketType> {
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
-                String ticketTypeId = rs.getString("MaLoaiVe");
+                int ticketTypeId = rs.getInt("MaLoaiVe");
                 String description = rs.getString("MoTa");
                 int basePrice = rs.getInt("GiaGoc");
 

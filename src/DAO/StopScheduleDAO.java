@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import Database.Utils;
+import java.sql.Timestamp;
 
 public class StopScheduleDAO implements DAOInterface<StopSchedule> {
 
@@ -25,10 +26,10 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             Connection con = Utils.Connectdb();
             String sql = "INSERT INTO LICHDUNG (MaLT, MaGT, GioDen, GioDi, ThuTu) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, s.getScheduleId());
-            pst.setString(2, s.getStationId());
-            pst.setTimestamp(3, s.getArrivalTime());
-            pst.setTimestamp(4, s.getDepartureTime());
+            pst.setInt(1, s.getScheduleId());
+            pst.setInt(2, s.getStationId());
+            pst.setTimestamp(3, java.sql.Timestamp.valueOf(s.getArrivalTime()));
+            pst.setTimestamp(4, java.sql.Timestamp.valueOf(s.getDepartureTime()));
             pst.setInt(5, s.getOrderNumber());
             result = pst.executeUpdate();
             Utils.Closeconn(con);
@@ -45,11 +46,11 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             Connection con = Utils.Connectdb();
             String sql = "UPDATE LICHDUNG SET GioDen=?, GioDi=?, ThuTu=? WHERE MaLT=? AND MaGT=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setTimestamp(1, s.getArrivalTime());
-            pst.setTimestamp(2, s.getDepartureTime());
+            pst.setTimestamp(1, java.sql.Timestamp.valueOf(s.getArrivalTime()));
+            pst.setTimestamp(2, java.sql.Timestamp.valueOf(s.getDepartureTime()));
             pst.setInt(3, s.getOrderNumber());
-            pst.setString(4, s.getScheduleId());
-            pst.setString(5, s.getStationId());
+            pst.setInt(4, s.getScheduleId());
+            pst.setInt(5, s.getStationId());
             result = pst.executeUpdate();
             Utils.Closeconn(con);
         } catch (Exception e) {
@@ -64,8 +65,8 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             Connection con = Utils.Connectdb();
             String sql = "DELETE FROM LICHDUNG WHERE MaLT=? AND MaGT=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, s.getScheduleId());
-            pst.setString(2, s.getStationId());
+            pst.setInt(1, s.getScheduleId());
+            pst.setInt(2, s.getStationId());
             result = pst.executeUpdate();
             Utils.Closeconn(con);
         } catch (Exception e) {
@@ -83,11 +84,11 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 StopSchedule s = new StopSchedule(
-                        rs.getString("MaLT"),
-                        rs.getString("MaGT"),
-                        rs.getTimestamp("GioDen"),
-                        rs.getTimestamp("GioDi"),
-                        rs.getInt("ThuTu")
+                    rs.getInt("MaLT"),
+                    rs.getInt("MaGT"),
+                    rs.getTimestamp("GioDen").toLocalDateTime(),
+                    rs.getTimestamp("GioDi").toLocalDateTime(),
+                    rs.getInt("ThuTu")
                 );
                 result.add(s);
             }
@@ -98,21 +99,22 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
         return result;
     }
     @Override
-    public StopSchedule selectbyId(String scheduleId) {
+    public StopSchedule selectbyId(int id, String m) {
         StopSchedule s = null;
         try {
             Connection con = Utils.Connectdb();
-            String sql = "SELECT * FROM LICHDUNG WHERE MaLT=?";
+            String sql = "SELECT * FROM LICHDUNG WHERE MaLT=? AND MaGT=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, scheduleId);
+            pst.setInt(1, id);
+            pst.setInt(2, Integer.parseInt(m));
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 s = new StopSchedule(
-                        rs.getString("MaLT"),
-                        rs.getString("MaGT"),
-                        rs.getTimestamp("GioDen"),
-                        rs.getTimestamp("GioDi"),
-                        rs.getInt("ThuTu")
+                    rs.getInt("MaLT"),
+                    rs.getInt("MaGT"),
+                    rs.getTimestamp("GioDen").toLocalDateTime(),
+                    rs.getTimestamp("GioDi").toLocalDateTime(),
+                    rs.getInt("ThuTu")
                 );
             }
             Utils.Closeconn(con);

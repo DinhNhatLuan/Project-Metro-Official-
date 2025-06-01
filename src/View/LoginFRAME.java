@@ -332,11 +332,11 @@ public class LoginFRAME extends javax.swing.JFrame {
     public void CheckLogin()
     {
         String Username=UserText.getText();
-char[] passwordChars = PassText.getPassword();
-String PassWord = new String(passwordChars); // Chuyển char[] thành String để sử dụng (nếu cần)
 
-// (Rất quan trọng) Xóa mật khẩu khỏi bộ nhớ sau khi sử dụng xong
-java.util.Arrays.fill(passwordChars, ' '); // Hoặc '\0' hoặc ký tự bất kỳ để ghi đè
+        char[] passwordChars = PassText.getPassword();
+        String PassWord = new String(passwordChars); 
+        java.util.Arrays.fill(passwordChars, ' '); 
+
         if(Username.equals("")||PassWord.equals(""))
         {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
@@ -345,7 +345,7 @@ java.util.Arrays.fill(passwordChars, ' '); // Hoặc '\0' hoặc ký tự bất 
         {
             try 
             {
-                Account acc=AccountDAO.getInstance().selectbyId(Username);
+                Account acc=AccountDAO.getInstance().selectbyId(0,Username);
                 if(acc==null)
                 {
                     JOptionPane.showMessageDialog(this, "Tài khoản của bạn không tồn tại", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
@@ -354,7 +354,7 @@ java.util.Arrays.fill(passwordChars, ' '); // Hoặc '\0' hoặc ký tự bất 
                 {
                     if(acc.getPassword().equals(PassWord))
                     {
-                        Employee emp=EmployeeDAO.getInstance().selectbyId(acc.getEmpID());
+                        Employee emp=EmployeeDAO.getInstance().selectbyId(acc.getEmpID(),"");
                         String Role=emp.getRole();
                         switch (Role){
                             case "Nhân viên quản lý":

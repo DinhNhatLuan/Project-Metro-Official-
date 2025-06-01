@@ -10,10 +10,11 @@ import java.time.LocalDate;
  * @author capta
  */
 public class Employee {
-    private String EmpID, Name, Role, Address, Email, PhoneNum, Phase, ManagerID;
+    private int EmpID, ManagerID;
+    private String Name, Role, Address, Email, PhoneNum, Phase;
     private int Salary;
     private boolean Gender;
-    private LocalDate SWDay;
+    private LocalDate SWDay, BirthDay;
 
     // Constructor không tham số
     public Employee() {
@@ -21,9 +22,9 @@ public class Employee {
     }
 
     // Constructor có tham số
-    public Employee(String EmpID, String Name, String Role, String Address, String Email,
-                    String PhoneNum, String Phase, String ManagerID, int Salary,
-                    boolean Gender, LocalDate SWDay) {
+    public Employee(int EmpID, String Name, String Role, String Address, String Email,
+                    String PhoneNum, String Phase, int ManagerID, int Salary,
+                    boolean Gender, LocalDate SWDay, LocalDate BirthDay) {
         this.EmpID = EmpID;
         this.Name = Name;
         this.Role = Role;
@@ -35,15 +36,24 @@ public class Employee {
         this.Salary = Salary;
         this.Gender = Gender;
         this.SWDay = SWDay;
+        this.BirthDay = BirthDay;
     }
 
     // Getters and Setters
-    public String getEmpID() {
+    public int getEmpID() {
         return EmpID;
     }
 
-    public void setEmpID(String empID) {
+    public void setEmpID(int empID) {
         EmpID = empID;
+    }
+
+    public int getManagerID() {
+        return ManagerID;
+    }
+
+    public void setManagerID(int managerID) {
+        ManagerID = managerID;
     }
 
     public String getName() {
@@ -94,14 +104,6 @@ public class Employee {
         Phase = phase;
     }
 
-    public String getManagerID() {
-        return ManagerID;
-    }
-
-    public void setManagerID(String managerID) {
-        ManagerID = managerID;
-    }
-
     public int getSalary() {
         return Salary;
     }
@@ -124,6 +126,14 @@ public class Employee {
 
     public void setSWDay(LocalDate sWDay) {
         SWDay = sWDay;
+    }
+
+    public LocalDate getBirthDay() {
+        return BirthDay;
+    }
+
+    public void setBirthDay(LocalDate birthDay) {
+        BirthDay = birthDay;
     }
 }
 

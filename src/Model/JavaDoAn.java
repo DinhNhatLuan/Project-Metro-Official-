@@ -4,6 +4,7 @@
  */
 package Model;
 import View.LoginFRAME;
+import View.licht;
 /**
  *
  * @author capta
@@ -15,7 +16,8 @@ public class JavaDoAn {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        new LoginFRAME().setVisible(true);
+        // new LoginFRAME().setVisible(true);
+        new licht().setVisible(true);
     }
     
 }

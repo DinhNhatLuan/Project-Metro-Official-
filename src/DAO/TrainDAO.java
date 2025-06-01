@@ -1,5 +1,9 @@
 package DAO;
 
+// import Model.Train; // Commented out because the class cannot be resolved
+// Please ensure the Train class exists and update the import accordingly, for example:
+// import your.actual.package.path.Train;
+// import Model.Train; // Update this import to the correct package path for Train
 import Model.Train;
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,7 +25,7 @@ public class TrainDAO implements DAOInterface<Train> {
         try (Connection con = Utils.Connectdb()) {
             String sql = "INSERT INTO TAU (MaTau, TenTau, SucChua) VALUES (?, ?, ?)";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, train.getTrainID());
+            pst.setInt(1, train.getTrainID());
             pst.setString(2, train.getTrainName());
             pst.setInt(3, train.getCapacity());
             result = pst.executeUpdate();
@@ -39,7 +43,7 @@ public class TrainDAO implements DAOInterface<Train> {
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, train.getTrainName());
             pst.setInt(2, train.getCapacity());
-            pst.setString(3, train.getTrainID());
+            pst.setInt(3, train.getTrainID());
             result = pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,7 +57,7 @@ public class TrainDAO implements DAOInterface<Train> {
         try (Connection con = Utils.Connectdb()) {
             String sql = "DELETE FROM TAU WHERE MaTau = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, train.getTrainID());
+            pst.setInt(1, train.getTrainID());
             result = pst.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,15 +66,15 @@ public class TrainDAO implements DAOInterface<Train> {
     }
 
     @Override
-    public Train selectbyId(String id) {
+    public Train selectbyId(int id, String m) {
         Train train = null;
         try (Connection con = Utils.Connectdb()) {
             String sql = "SELECT * FROM TAU WHERE MaTau = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, id);
+            pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                String trainID = rs.getString("MaTau");
+                int trainID = rs.getInt("MaTau");
                 String trainName = rs.getString("TenTau");
                 int capacity = rs.getInt("SucChua");
                 train = new Train(trainID, trainName, capacity);
@@ -89,7 +93,7 @@ public class TrainDAO implements DAOInterface<Train> {
             PreparedStatement pst = con.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                String trainID = rs.getString("MaTau");
+                int trainID = rs.getInt("MaTau");
                 String trainName = rs.getString("TenTau");
                 int capacity = rs.getInt("SucChua");
                 list.add(new Train(trainID, trainName, capacity));

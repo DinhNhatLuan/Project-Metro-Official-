@@ -10,8 +10,10 @@ package View;
  */
 import Model.Account;
 import Model.Employee;
-public class Admin_GUI extends javax.swing.JFrame {
+import java.awt.CardLayout;
 
+public class Admin_GUI extends javax.swing.JFrame {
+    private licht test;
     /**
      * Creates new form Admin_GUI
      */
@@ -28,6 +30,13 @@ public class Admin_GUI extends javax.swing.JFrame {
     }
     public Admin_GUI() {
         initComponents();
+        CardPanel.setLayout(new CardLayout());
+        test = new licht();
+        CardPanel.add(test,"testlich");
+        
+        CardLayout c1=(CardLayout)CardPanel.getLayout();
+        c1.show(CardPanel,"testlich");
+        
     }
 
     /**
@@ -46,6 +55,7 @@ public class Admin_GUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        CardPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,17 +133,30 @@ public class Admin_GUI extends javax.swing.JFrame {
                 .addGap(45, 45, 45))
         );
 
+        javax.swing.GroupLayout CardPanelLayout = new javax.swing.GroupLayout(CardPanel);
+        CardPanel.setLayout(CardPanelLayout);
+        CardPanelLayout.setHorizontalGroup(
+            CardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 740, Short.MAX_VALUE)
+        );
+        CardPanelLayout.setVerticalGroup(
+            CardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 738, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(CardPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(CardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -175,6 +198,7 @@ public class Admin_GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel CardPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
