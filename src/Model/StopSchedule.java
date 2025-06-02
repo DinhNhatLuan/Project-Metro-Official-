@@ -1,17 +1,17 @@
 package Model;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class StopSchedule {
     private int scheduleId;
     private int stationId;
-    private LocalDateTime arrivalTime;
-    private LocalDateTime departureTime;
+    private LocalTime arrivalTime;
+    private LocalTime departureTime;
     private int orderNumber;
 
     public StopSchedule() {}
 
-    public StopSchedule(int scheduleId, int stationId, LocalDateTime arrivalTime, LocalDateTime departureTime, int orderNumber) {
+    public StopSchedule(int scheduleId, int stationId, LocalTime arrivalTime, LocalTime departureTime, int orderNumber) {
         this.scheduleId = scheduleId;
         this.stationId = stationId;
         this.arrivalTime = arrivalTime;
@@ -35,19 +35,19 @@ public class StopSchedule {
         this.stationId = stationId;
     }
 
-    public LocalDateTime getArrivalTime() {
+    public LocalTime getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(LocalDateTime arrivalTime) {
+    public void setArrivalTime(LocalTime arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 
-    public LocalDateTime getDepartureTime() {
+    public LocalTime getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(LocalDateTime departureTime) {
+    public void setDepartureTime(LocalTime departureTime) {
         this.departureTime = departureTime;
     }
 

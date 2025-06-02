@@ -24,17 +24,24 @@ public class ScheduleDAO implements DAOInterface<Schedule> {
         int result = 0;
         try {
             Connection con = Utils.Connectdb();
-            String sql = "INSERT INTO LICHTRINH (MaLT, NgayKH, GioKH, TinhTrang, MaTau, MaNV, SoLuongVeDB) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, s.getScheduleID());
-            pst.setDate(2, Date.valueOf(s.getDepartureDate()));
-            pst.setTime(3, Time.valueOf(s.getDepartureTime()));
-            pst.setString(4, s.getStatus());
-            pst.setString(5, s.getTrainID());
-            pst.setString(6, s.getEmployeeID());
+            String sql = "INSERT INTO LICHTRINH (NgayKH, GioKH, TinhTrang, MaTau, MaNVLT, MaNVLL, SoLuongVeDB, MaTuyen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement pst = con.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
+            pst.setDate(1, Date.valueOf(s.getDepartureDate()));
+            pst.setTime(2, Time.valueOf(s.getDepartureTime()));
+            pst.setString(3, s.getStatus());
+            pst.setInt(4, s.getTrainID());
+            pst.setInt(5, s.getDriverID());
+            pst.setInt(6, s.getScMakerID());
             pst.setInt(7, s.getReservedTicketCount());
+            pst.setInt(8, s.getRouteId());
 
-            result = pst.executeUpdate();
+            int mm = pst.executeUpdate();
+        if (mm > 0) {
+            ResultSet rs = pst.getGeneratedKeys();
+            if (rs.next()) {
+                result = rs.getInt(1);
+            }
+        }
             Utils.Closeconn(con);
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,15 +54,17 @@ public class ScheduleDAO implements DAOInterface<Schedule> {
         int result = 0;
         try {
             Connection con = Utils.Connectdb();
-            String sql = "UPDATE LICHTRINH SET NgayKH=?, GioKH=?, TinhTrang=?, MaTau=?, MaNV=?, SoLuongVeDB=? WHERE MaLT=?";
+            String sql = "UPDATE LICHTRINH SET NgayKH=?, GioKH=?, TinhTrang=?, MaTau=?, MaNVLT=?, MaNVLL=?, SoLuongVeDB=?, MaTuyen=? WHERE MaLT=?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setDate(1, Date.valueOf(s.getDepartureDate()));
             pst.setTime(2, Time.valueOf(s.getDepartureTime()));
             pst.setString(3, s.getStatus());
-            pst.setString(4, s.getTrainID());
-            pst.setString(5, s.getEmployeeID());
-            pst.setInt(6, s.getReservedTicketCount());
-            pst.setString(7, s.getScheduleID());
+            pst.setInt(4, s.getTrainID());
+            pst.setInt(5, s.getDriverID());
+            pst.setInt(6, s.getScMakerID());
+            pst.setInt(7, s.getReservedTicketCount());
+            pst.setInt(8, s.getRouteId());
+            pst.setInt(9, s.getScheduleID());
 
             result = pst.executeUpdate();
             Utils.Closeconn(con);
@@ -72,7 +81,7 @@ public class ScheduleDAO implements DAOInterface<Schedule> {
             Connection con = Utils.Connectdb();
             String sql = "DELETE FROM LICHTRINH WHERE MaLT=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, s.getScheduleID());
+            pst.setInt(1, s.getScheduleID());
             result = pst.executeUpdate();
             Utils.Closeconn(con);
         } catch (Exception e) {
@@ -92,13 +101,15 @@ public class ScheduleDAO implements DAOInterface<Schedule> {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 schedule = new Schedule(
-                    rs.getString("MaLT"),
+                    rs.getInt("MaLT"),
                     rs.getDate("NgayKH").toLocalDate(),
                     rs.getTime("GioKH").toLocalTime(),
                     rs.getString("TinhTrang"),
-                    rs.getString("MaTau"),
-                    rs.getString("MaNV"),
-                    rs.getInt("SoLuongVeDB")
+                    rs.getInt("MaTau"),
+                    rs.getInt("MaNVLT"),
+                    rs.getInt("MaNVLL"),
+                    rs.getInt("SoLuongVeDB"),
+                    rs.getInt("MaTuyen")
                 );
             }
             Utils.Closeconn(con);
@@ -118,13 +129,15 @@ public class ScheduleDAO implements DAOInterface<Schedule> {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 Schedule schedule = new Schedule(
-                    rs.getString("MaLT"),
+                    rs.getInt("MaLT"),
                     rs.getDate("NgayKH").toLocalDate(),
                     rs.getTime("GioKH").toLocalTime(),
                     rs.getString("TinhTrang"),
-                    rs.getString("MaTau"),
-                    rs.getString("MaNV"),
-                    rs.getInt("SoLuongVeDB")
+                    rs.getInt("MaTau"),
+                    rs.getInt("MaNVLT"),
+                    rs.getInt("MaNVLL"),
+                    rs.getInt("SoLuongVeDB"),
+                    rs.getInt("MaTuyen")
                 );
                 list.add(schedule);
             }
@@ -134,4 +147,4 @@ public class ScheduleDAO implements DAOInterface<Schedule> {
         }
         return list;
     }
-} 
+}

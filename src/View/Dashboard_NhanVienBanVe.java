@@ -57,7 +57,7 @@ public class Dashboard_NhanVienBanVe extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/tickets.png"))); // NOI18N
-        jLabel2.setText("Quản lý vé");
+        jLabel2.setText("Bán vé");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));

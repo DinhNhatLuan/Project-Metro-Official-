@@ -56,7 +56,6 @@ public class DetailAccount extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1024, 640));
-        setPreferredSize(new java.awt.Dimension(1024, 640));
 
         jPanel1.setMinimumSize(new java.awt.Dimension(1024, 640));
 

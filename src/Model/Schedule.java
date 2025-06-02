@@ -17,36 +17,41 @@ import java.time.LocalTime;
 import java.time.LocalDate;
 
 public class Schedule {
-    private String scheduleID;
+    private int scheduleID;
     private LocalDate departureDate;
     private LocalTime departureTime;
     private String status;
-    private String trainID;
-    private String employeeID;
+    private int trainID;
+    private int driverID;
+    private int scMakerID;
     private int reservedTicketCount;
+    private int routeId;
 
     public Schedule() {
         super();
     }
 
-    public Schedule(String scheduleID, LocalDate departureDate, LocalTime departureTime,
-                    String status, String trainID, String employeeID, int reservedTicketCount) {
+    public Schedule(int scheduleID, LocalDate departureDate, LocalTime departureTime,
+                    String status, int trainID, int driverID, int scMakerID,
+                    int reservedTicketCount, int routeId) {
         this.scheduleID = scheduleID;
         this.departureDate = departureDate;
         this.departureTime = departureTime;
         this.status = status;
         this.trainID = trainID;
-        this.employeeID = employeeID;
+        this.driverID = driverID;
+        this.scMakerID = scMakerID;
         this.reservedTicketCount = reservedTicketCount;
+        this.routeId = routeId;
     }
 
     // Getters and Setters
 
-    public String getScheduleID() {
+    public int getScheduleID() {
         return scheduleID;
     }
 
-    public void setScheduleID(String scheduleID) {
+    public void setScheduleID(int scheduleID) {
         this.scheduleID = scheduleID;
     }
 
@@ -74,20 +79,28 @@ public class Schedule {
         this.status = status;
     }
 
-    public String getTrainID() {
+    public int getTrainID() {
         return trainID;
     }
 
-    public void setTrainID(String trainID) {
+    public void setTrainID(int trainID) {
         this.trainID = trainID;
     }
 
-    public String getEmployeeID() {
-        return employeeID;
+    public int getDriverID() {
+        return driverID;
     }
 
-    public void setEmployeeID(String employeeID) {
-        this.employeeID = employeeID;
+    public void setDriverID(int driverID) {
+        this.driverID = driverID;
+    }
+
+    public int getScMakerID() {
+        return scMakerID;
+    }
+
+    public void setScMakerID(int scMakerID) {
+        this.scMakerID = scMakerID;
     }
 
     public int getReservedTicketCount() {
@@ -96,5 +109,13 @@ public class Schedule {
 
     public void setReservedTicketCount(int reservedTicketCount) {
         this.reservedTicketCount = reservedTicketCount;
+    }
+
+    public int getRouteId() {
+        return routeId;
+    }
+
+    public void setRouteId(int routeId) {
+        this.routeId = routeId;
     }
 }

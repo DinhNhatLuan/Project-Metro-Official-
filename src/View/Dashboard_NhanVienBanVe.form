@@ -115,7 +115,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/Icon/tickets.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; v&#xe9;"/>
+            <Property name="text" type="java.lang.String" value="B&#xe1;n v&#xe9;"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">

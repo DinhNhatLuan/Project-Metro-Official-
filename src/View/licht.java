@@ -13,6 +13,11 @@ import java.util.Calendar;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import javax.swing.SpinnerModel;
+import javax.swing.text.BadLocationException;
+
 
 /**
  *
@@ -26,7 +31,48 @@ public class licht extends javax.swing.JFrame {
     public licht() {
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+        // ...existing code...
+        SpinnerModel model = new SpinnerDateModel();
+        JSpinner timespinner = new JSpinner(model);
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(timespinner, "HH 'giờ' mm 'phút'");
+        timespinner.setEditor(editor);
+
+        // Đặt giá trị mặc định là 00:00
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        cal.set(java.util.Calendar.MINUTE, 0);
+        cal.set(java.util.Calendar.SECOND, 0);
+        cal.set(java.util.Calendar.MILLISECOND, 0);
+        timespinner.setValue(cal.getTime());
+
+        // Chỉ cho phép chỉnh số, không cho xóa chữ "giờ" và "phút"
+        javax.swing.JFormattedTextField tf = editor.getTextField();
+        tf.setEditable(true);
+        tf.setFocusLostBehavior(javax.swing.JFormattedTextField.COMMIT);
+
+        // Đặt lại DocumentFilter để ngăn xóa phần chữ
+        ((javax.swing.text.AbstractDocument) tf.getDocument()).setDocumentFilter(new javax.swing.text.DocumentFilter() {
+            @Override
+            public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
+                String text = fb.getDocument().getText(offset, length);
+                // Nếu phần bị xóa chứa "giờ" hoặc "phút" thì không xóa
+                if (text.contains("giờ") || text.contains("phút")) return;
+                super.remove(fb, offset, length);
+            }
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String string, javax.swing.text.AttributeSet attrs) throws BadLocationException {
+                String oldText = fb.getDocument().getText(offset, length);
+                // Nếu phần bị thay thế chứa "giờ" hoặc "phút" thì không thay thế
+                if (oldText.contains("giờ") || oldText.contains("phút")) return;
+                super.replace(fb, offset, length, string, attrs);
+            }
+        });
+
+        // ...existing code...
+        TimePanel.setLayout(new java.awt.FlowLayout());
+        TimePanel.add(timespinner);
+        TimePanel.revalidate();
+        TimePanel.repaint();
     }
 
     /**
@@ -41,6 +87,7 @@ public class licht extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         calendar = new com.toedter.calendar.JCalendar();
         jToggleButton1 = new javax.swing.JToggleButton();
+        TimePanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,16 +98,31 @@ public class licht extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout TimePanelLayout = new javax.swing.GroupLayout(TimePanel);
+        TimePanel.setLayout(TimePanelLayout);
+        TimePanelLayout.setHorizontalGroup(
+            TimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 528, Short.MAX_VALUE)
+        );
+        TimePanelLayout.setVerticalGroup(
+            TimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(88, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(calendar, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(80, 80, 80))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(TimePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -69,7 +131,9 @@ public class licht extends javax.swing.JFrame {
                 .addComponent(calendar, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGap(48, 48, 48)
+                .addComponent(TimePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(153, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -133,6 +197,7 @@ public class licht extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel TimePanel;
     private com.toedter.calendar.JCalendar calendar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JToggleButton jToggleButton1;

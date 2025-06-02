@@ -66,16 +66,17 @@ CREATE TABLE LICHTRINH (
     GioKH TIME,
     TinhTrang VARCHAR(10),
     MaTau INT,
-    MaNV INT NOT NULL,
-    SoLuongVeDB INT,
+    MaNVLT INT,
+    MaNVLL INT,
+    SoLuongVeDB INT DEFAULT 0,
     MaTuyen INT NOT NULL
 );
 
 CREATE TABLE LICHDUNG (
     MaLT INT NOT NULL,
     MaGT INT NOT NULL,
-    GioDen DATETIME,
-    GioDi DATETIME,
+    GioDen TIME,
+    GioDi TIME,
     ThuTu INT,
     PRIMARY KEY (MaLT, MaGT)
 );
@@ -135,8 +136,12 @@ FOREIGN KEY (MaTau) REFERENCES TAU(MaTau);
 
 -- Bảng LICHTRINH tham chiếu đến NHANVIEN
 ALTER TABLE LICHTRINH
-ADD CONSTRAINT fk_ltrinh_nv
-FOREIGN KEY (MaNV) REFERENCES NHANVIEN(MaNV);
+ADD CONSTRAINT fk_ltrinh_nvLT
+FOREIGN KEY (MaNVLT) REFERENCES NHANVIEN(MaNV);
+
+ALTER TABLE LICHTRINH
+ADD CONSTRAINT fk_ltrinh_nvLL
+FOREIGN KEY (MaNVLL) REFERENCES NHANVIEN(MaNV);
 
 -- Bảng LICHDUNG tham chiếu đến LICHTRINH
 ALTER TABLE LICHDUNG
@@ -247,6 +252,70 @@ END$$
 DELIMITER ;
 
 -- Nhap du lieu
-insert into NHANVIEN (HoTen,NgaySinh,ChucVu,DiaChi,GioiTinh,Email,SoDT,Luong,NgayVaoLam,CaLam,MaNVQL) values('Bombardiro Crocodilo','1980-1-1','Nhân viên quản lý','Bình Dương',1,
-'captainman@gmail.com','1234567',1000000, '2000-1-1','Sáng',null);
-insert into TAIKHOAN values('tkadmin001','123456',1);
+-- NHANVIEN
+INSERT INTO NHANVIEN (MaNV, HoTen, NgaySinh, ChucVu, DiaChi, GioiTinh, Email, SoDT, Luong, NgayVaoLam, CaLam, MaNVQL) VALUES
+(1, 'Nguyen Van A', '1985-05-10', 'Truong ga', 'Ha Noi', TRUE, 'a@example.com', '0901234567', 15000000, '2020-01-01', 'Ca sang', NULL),
+(2, 'Tran Thi B', '1990-08-15', 'Nhan vien', 'TP HCM', FALSE, 'b@example.com', '0912345678', 10000000, '2021-05-10', 'Ca chieu', 1),
+(3, 'Le Van C', '1992-09-22', 'Nhan vien', 'Da Nang', TRUE, 'c@example.com', '0934567890', 9500000, '2022-03-15', 'Ca dem', 1);
+UPDATE NHANVIEN SET ChucVu='Lái Tàu' WHERE manv=3;
+INSERT INTO NHANVIEN (MaNV, HoTen, NgaySinh, ChucVu, DiaChi, GioiTinh, Email, SoDT, Luong, NgayVaoLam, CaLam, MaNVQL) VALUES
+(4, 'Pham Van D', '1988-11-20', 'Lái Tàu', 'Hai Phong', TRUE, 'd@example.com', '0971234567', 12000000, '2023-02-01', 'Ca sang', 1),
+(5, 'Nguyen Thi E', '1991-04-10', 'Lái Tàu', 'Can Tho', FALSE, 'e@example.com', '0967654321', 11500000, '2023-06-15', 'Ca chieu', 1);
+
+ 
+-- TAU
+INSERT INTO TAU (MaTau, TenTau, SucChua) VALUES
+(1, 'Tau SE1', 300),
+(2, 'Tau TN2', 250);
+
+-- GATAU
+INSERT INTO GATAU (MaGT, TenGT, ViTri) VALUES
+(1, 'Ga Ha Noi', 'Ha Noi'),
+(2, 'Ga Da Nang', 'Da Nang'),
+(3, 'Ga Sai Gon', 'TP HCM');
+
+-- TUYEN
+INSERT INTO TUYEN (MaTuyen, TenTuyen, DoDai) VALUES
+(1, 'Ha Noi - Da Nang', 791),
+(2, 'Da Nang - Sai Gon', 935);
+
+-- CT_TUYEN
+INSERT INTO CT_TUYEN (MaTuyen, MaGT, ThuTu) VALUES 
+(1, 1, 1),
+(1, 2, 2),
+(2, 2, 1),
+(2, 3, 2),
+(1,3,3),
+(2,1,3);
+
+-- THUTUGA
+INSERT INTO THUTUGA (MaTT, MaGaDi, MaGaDen, GiaTinhThem) VALUES
+(1, 1, 2, 50000),
+(2, 2, 3, 70000);
+
+-- LICHTRINH
+INSERT INTO LICHTRINH (MaLT, NgayKH, GioKH, TinhTrang, MaTau, MaNVLT, MaNVLL, SoLuongVeDB, MaTuyen) VALUES
+(1, '2025-06-01', '08:00:00', 'Chay', 1, 1, 2, 100, 1),
+(2, '2025-06-02', '09:00:00', 'Chay', 2, 1, 3, 80, 2);
+
+-- LOAIVE
+INSERT INTO LOAIVE (MaLoaiVe, MoTa, GiaGoc) VALUES
+(1, 'Ve nguoi lon', 500000),
+(2, 'Ve tre em', 300000);
+
+-- TAIKHOAN
+INSERT INTO TAIKHOAN (TenTK, MatKhau, MaNV) VALUES
+('admin', '123456', 1),
+('user1', 'password', 2);
+
+-- ct-tuyen
+INSERT INTO LICHDUNG (MaLT, MaGT, GioDen, GioDi, ThuTu) VALUES
+(1, 1, '07:55:00', '08:00:00', 1), 
+(1, 2, '09:00:00', '09:05:00', 2),
+(1, 3, '09:50:00', '10:00:00', 3);
+ -- Ga đến
+
+INSERT INTO LICHDUNG (MaLT, MaGT, GioDen, GioDi, ThuTu) VALUES
+(2, 2, '08:55:00', '09:00:00', 1), 
+(2, 3, '10:00:00', '10:05:00', 2), 
+(2, 1, '11:00:00', '11:07:00', 3);

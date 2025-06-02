@@ -30,12 +30,13 @@ public class Admin_GUI extends javax.swing.JFrame {
     }
     public Admin_GUI() {
         initComponents();
-        CardPanel.setLayout(new CardLayout());
-        test = new licht();
-        CardPanel.add(test,"testlich");
-        
-        CardLayout c1=(CardLayout)CardPanel.getLayout();
-        c1.show(CardPanel,"testlich");
+        lichtrinhpane lichtrinh = new lichtrinhpane();
+        CardPanel.setLayout(new java.awt.CardLayout());
+        CardPanel.add(lichtrinh,"cardlichtrinh");
+        CardPanel.revalidate();
+        CardPanel.repaint();
+        CardLayout c1=(CardLayout) CardPanel.getLayout();
+        c1.show(CardPanel, "cardlichtrinh");
         
     }
 

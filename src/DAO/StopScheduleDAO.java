@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import Database.Utils;
-import java.sql.Timestamp;
+import java.sql.Time;
 
 public class StopScheduleDAO implements DAOInterface<StopSchedule> {
 
@@ -28,8 +28,8 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, s.getScheduleId());
             pst.setInt(2, s.getStationId());
-            pst.setTimestamp(3, java.sql.Timestamp.valueOf(s.getArrivalTime()));
-            pst.setTimestamp(4, java.sql.Timestamp.valueOf(s.getDepartureTime()));
+            pst.setTime(3, Time.valueOf(s.getArrivalTime()));
+            pst.setTime(4, Time.valueOf(s.getDepartureTime()));
             pst.setInt(5, s.getOrderNumber());
             result = pst.executeUpdate();
             Utils.Closeconn(con);
@@ -44,13 +44,12 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
         int result = 0;
         try {
             Connection con = Utils.Connectdb();
-            String sql = "UPDATE LICHDUNG SET GioDen=?, GioDi=?, ThuTu=? WHERE MaLT=? AND MaGT=?";
+            String sql = "UPDATE LICHDUNG SET GioDen=?, GioDi=? WHERE MaLT=? AND MaGT=?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setTimestamp(1, java.sql.Timestamp.valueOf(s.getArrivalTime()));
-            pst.setTimestamp(2, java.sql.Timestamp.valueOf(s.getDepartureTime()));
-            pst.setInt(3, s.getOrderNumber());
-            pst.setInt(4, s.getScheduleId());
-            pst.setInt(5, s.getStationId());
+            pst.setTime(1, Time.valueOf(s.getArrivalTime()));
+            pst.setTime(2, Time.valueOf(s.getDepartureTime()));
+            pst.setInt(3, s.getScheduleId());
+            pst.setInt(4, s.getStationId());
             result = pst.executeUpdate();
             Utils.Closeconn(con);
         } catch (Exception e) {
@@ -74,6 +73,7 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
         }
         return result;
     }
+
     @Override
     public ArrayList<StopSchedule> selectAll() {
         ArrayList<StopSchedule> result = new ArrayList<>();
@@ -86,8 +86,8 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
                 StopSchedule s = new StopSchedule(
                     rs.getInt("MaLT"),
                     rs.getInt("MaGT"),
-                    rs.getTimestamp("GioDen").toLocalDateTime(),
-                    rs.getTimestamp("GioDi").toLocalDateTime(),
+                    rs.getTime("GioDen").toLocalTime(),
+                    rs.getTime("GioDi").toLocalTime(),
                     rs.getInt("ThuTu")
                 );
                 result.add(s);
@@ -98,6 +98,7 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
         }
         return result;
     }
+
     @Override
     public StopSchedule selectbyId(int id, String m) {
         StopSchedule s = null;
@@ -112,8 +113,8 @@ public class StopScheduleDAO implements DAOInterface<StopSchedule> {
                 s = new StopSchedule(
                     rs.getInt("MaLT"),
                     rs.getInt("MaGT"),
-                    rs.getTimestamp("GioDen").toLocalDateTime(),
-                    rs.getTimestamp("GioDi").toLocalDateTime(),
+                    rs.getTime("GioDen").toLocalTime(),
+                    rs.getTime("GioDi").toLocalTime(),
                     rs.getInt("ThuTu")
                 );
             }
