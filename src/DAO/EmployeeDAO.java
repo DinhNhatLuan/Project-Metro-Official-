@@ -93,6 +93,8 @@ public class EmployeeDAO implements DAOInterface<Employee>{
             PreparedStatement pst=con.prepareStatement(sql);
             pst.setInt(1, m.getEmpID());
             kq=pst.executeUpdate();
+            con.commit();
+            Utils.Closeconn(con);
         }
         catch (Exception e){
             e.printStackTrace();

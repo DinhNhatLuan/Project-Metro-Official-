@@ -22,10 +22,25 @@ public class Employee {
     }
 
     // Constructor có tham số
-    public Employee(int EmpID, String Name, String Role, String Address, String Email,
+    public Employee(String Name, String Role, String Address, String Email,
                     String PhoneNum, String Phase, int ManagerID, int Salary,
                     boolean Gender, LocalDate SWDay, LocalDate BirthDay) {
-        this.EmpID = EmpID;
+        this.Name = Name;
+        this.Role = Role;
+        this.Address = Address;
+        this.Email = Email;
+        this.PhoneNum = PhoneNum;
+        this.Phase = Phase;
+        this.ManagerID = ManagerID;
+        this.Salary = Salary;
+        this.Gender = Gender;
+        this.SWDay = SWDay;
+        this.BirthDay = BirthDay;
+    }
+ public Employee(int EmpID,String Name, String Role, String Address, String Email,
+                    String PhoneNum, String Phase, int ManagerID, int Salary,
+                    boolean Gender, LocalDate SWDay, LocalDate BirthDay) {
+        this.EmpID =EmpID;
         this.Name = Name;
         this.Role = Role;
         this.Address = Address;
@@ -40,6 +55,7 @@ public class Employee {
     }
 
     // Getters and Setters
+
     public int getEmpID() {
         return EmpID;
     }
@@ -47,7 +63,7 @@ public class Employee {
     public void setEmpID(int empID) {
         EmpID = empID;
     }
-
+    
     public int getManagerID() {
         return ManagerID;
     }

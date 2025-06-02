@@ -4,6 +4,7 @@
  */
 package Model;
 import View.LoginFRAME;
+import View.QLNV_GUI;
 import View.licht;
 /**
  *
@@ -17,7 +18,7 @@ public class JavaDoAn {
     public static void main(String[] args) {
         // TODO code application logic here
         // new LoginFRAME().setVisible(true);
-        new licht().setVisible(true);
+        new QLNV_GUI().setVisible(true);
     }
     
 }
