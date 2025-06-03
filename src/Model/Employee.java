@@ -38,6 +38,21 @@ public class Employee {
         this.SWDay = SWDay;
         this.BirthDay = BirthDay;
     }
+    public Employee(String Name, String Role, String Address, String Email,
+                    String PhoneNum, String Phase, int ManagerID, int Salary,
+                    boolean Gender, LocalDate SWDay, LocalDate BirthDay) {
+        this.Name = Name;
+        this.Role = Role;
+        this.Address = Address;
+        this.Email = Email;
+        this.PhoneNum = PhoneNum;
+        this.Phase = Phase;
+        this.ManagerID = ManagerID;
+        this.Salary = Salary;
+        this.Gender = Gender;
+        this.SWDay = SWDay;
+        this.BirthDay = BirthDay;
+    }
 
     // Getters and Setters
     public int getEmpID() {

@@ -22,10 +22,11 @@ public class RouteDAO implements DAOInterface<Route> {
         int kq = 0;
         try {
             Connection con = Utils.Connectdb();
-            String sql = "INSERT INTO TUYEN (TenTuyen, DoDai) VALUES (?, ?)";
+            String sql = "INSERT INTO TUYEN (TenTuyen, DoDai, ExtraCost) VALUES (?, ?, ?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, r.getRouteName());
             pst.setInt(2, r.getLength());
+            pst.setInt(3, r.getExtraCost());
             kq = pst.executeUpdate();
             Utils.Closeconn(con);
         } catch (Exception e) {
@@ -39,11 +40,12 @@ public class RouteDAO implements DAOInterface<Route> {
         int kq = 0;
         try {
             Connection con = Utils.Connectdb();
-            String sql = "UPDATE TUYEN SET TenTuyen=?, DoDai=? WHERE MaTuyen=?";
+            String sql = "UPDATE TUYEN SET TenTuyen=?, DoDai=?, ExtraCost=? WHERE MaTuyen=?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, r.getRouteName());
             pst.setInt(2, r.getLength());
-            pst.setInt(3, r.getRouteId());
+            pst.setInt(3, r.getExtraCost());
+            pst.setInt(4, r.getRouteId());
             kq = pst.executeUpdate();
             Utils.Closeconn(con);
         } catch (Exception e) {
@@ -81,7 +83,8 @@ public class RouteDAO implements DAOInterface<Route> {
                 int routeId = rs.getInt("MaTuyen");
                 String routeName = rs.getString("TenTuyen");
                 int length = rs.getInt("DoDai");
-                route = new Route(routeId, routeName, length);
+                int extraCost = rs.getInt("ExtraCost");
+                route = new Route(routeId, routeName, length, extraCost);
             }
             Utils.Closeconn(con);
         } catch (Exception e) {
@@ -102,7 +105,8 @@ public class RouteDAO implements DAOInterface<Route> {
                 int routeId = rs.getInt("MaTuyen");
                 String routeName = rs.getString("TenTuyen");
                 int length = rs.getInt("DoDai");
-                list.add(new Route(routeId, routeName, length));
+                int extraCost = rs.getInt("GiaChenhLech");
+                list.add(new Route(routeId, routeName, length, extraCost));
             }
             Utils.Closeconn(con);
         } catch (Exception e) {

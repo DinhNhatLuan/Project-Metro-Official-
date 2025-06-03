@@ -24,21 +24,13 @@ CREATE TABLE VE (
     Gia INT,
     MaLoaiVe INT NOT NULL,
     ThoiDiemMua DATETIME,
-    MaLT INT,
-    MaTT INT
+    MaLT INT
 );
 
 CREATE TABLE GATAU (
     MaGT INT AUTO_INCREMENT PRIMARY KEY,
     TenGT VARCHAR(50),
     ViTri VARCHAR(50)
-);
-
-CREATE TABLE THUTUGA (
-    MaTT INT AUTO_INCREMENT PRIMARY KEY,
-    MaGaDi INT,
-    MaGaDen INT,
-    GiaTinhThem INT NOT NULL
 );
 
 CREATE TABLE LOAIVE (
@@ -114,21 +106,6 @@ FOREIGN KEY (MaLoaiVe) REFERENCES LOAIVE(MaLoaiVe);
 ALTER TABLE VE
 ADD CONSTRAINT fk_ve_lichttrinh
 FOREIGN KEY (MaLT) REFERENCES LICHTRINH(MaLT);
-
--- Bảng VE tham chiếu đến THUTUGA
-ALTER TABLE VE
-ADD CONSTRAINT fk_ve_thutuga
-FOREIGN KEY (MaTT) REFERENCES THUTUGA(MaTT);
-
--- Bảng THUTUGA tham chiếu đến GATAU (Ga đi)
-ALTER TABLE THUTUGA
-ADD CONSTRAINT fk_ttga_gadi
-FOREIGN KEY (MaGaDi) REFERENCES GATAU(MaGT);
-
--- Bảng THUTUGA tham chiếu đến GATAU (Ga đến)
-ALTER TABLE THUTUGA
-ADD CONSTRAINT fk_ttga_gaden
-FOREIGN KEY (MaGaDen) REFERENCES GATAU(MaGT);
 
 -- Bảng LICHTRINH tham chiếu đến TAU
 ALTER TABLE LICHTRINH
@@ -276,9 +253,9 @@ INSERT INTO GATAU (MaGT, TenGT, ViTri) VALUES
 (3, 'Ga Sai Gon', 'TP HCM');
 
 -- TUYEN
-INSERT INTO TUYEN (MaTuyen, TenTuyen, DoDai) VALUES
-(1, 'Ha Noi - Da Nang', 791),
-(2, 'Da Nang - Sai Gon', 935);
+INSERT INTO TUYEN (MaTuyen, TenTuyen, DoDai, GiaChenhLech) VALUES
+(1, 'Ha Noi - Da Nang', 791, 1000),
+(2, 'Da Nang - Sai Gon', 935, 1500);
 
 -- CT_TUYEN
 INSERT INTO CT_TUYEN (MaTuyen, MaGT, ThuTu) VALUES 
@@ -289,20 +266,20 @@ INSERT INTO CT_TUYEN (MaTuyen, MaGT, ThuTu) VALUES
 (1,3,3),
 (2,1,3);
 
--- THUTUGA
-INSERT INTO THUTUGA (MaTT, MaGaDi, MaGaDen, GiaTinhThem) VALUES
-(1, 1, 2, 50000),
-(2, 2, 3, 70000);
 
 -- LICHTRINH
 INSERT INTO LICHTRINH (MaLT, NgayKH, GioKH, TinhTrang, MaTau, MaNVLT, MaNVLL, SoLuongVeDB, MaTuyen) VALUES
 (1, '2025-06-01', '08:00:00', 'Chay', 1, 1, 2, 100, 1),
-(2, '2025-06-02', '09:00:00', 'Chay', 2, 1, 3, 80, 2);
+(2, '2025-06-02', '09:00:00', 'Chay', 2, 1, 3, 80, 2),
+(3, '2025-06-03', '09:00:00', 'Chay', 2, 1, 3, 80, 1);
 
 -- LOAIVE
 INSERT INTO LOAIVE (MaLoaiVe, MoTa, GiaGoc) VALUES
-(1, 'Ve nguoi lon', 500000),
-(2, 'Ve tre em', 300000);
+(1, 'Vé theo tháng', 500000),
+(2, 'Vé theo ngày', 30000),
+(3, 'Vé theo lượt',3000);
+select * from loaive
+
 
 -- TAIKHOAN
 INSERT INTO TAIKHOAN (TenTK, MatKhau, MaNV) VALUES
@@ -320,3 +297,7 @@ INSERT INTO LICHDUNG (MaLT, MaGT, GioDen, GioDi, ThuTu) VALUES
 (2, 2, '08:55:00', '09:00:00', 1), 
 (2, 3, '10:00:00', '10:05:00', 2), 
 (2, 1, '11:00:00', '11:07:00', 3);
+INSERT INTO LICHDUNG (MaLT, MaGT, GioDen, GioDi, ThuTu) VALUES
+(3, 1, '12:00:00', '12:10:00', 1), 
+(3, 2, '13:00:00', '13:15:00', 2),
+(3, 3, '14:50:00', '15:00:00', 3);

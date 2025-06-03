@@ -6,7 +6,6 @@ import Database.Utils;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class TicketDAO implements DAOInterface<Ticket> {
     public static TicketDAO instance;
@@ -16,18 +15,18 @@ public class TicketDAO implements DAOInterface<Ticket> {
         }
         return instance;
     }
+
     @Override
     public int insert(Ticket t) {
         int kq = 0;
         try {
             Connection con = Utils.Connectdb();
-            String sql = "INSERT INTO VE (Gia, MaLoaiVe, ThoiDiemMua, MaLT, MaTT) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO VE (Gia, MaLoaiVe, ThoiDiemMua, MaLT) VALUES (?, ?, ?, ?)";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, t.getPrice());
             pst.setInt(2, t.getTicketTypeId());
             pst.setTimestamp(3, Timestamp.valueOf(t.getPurchaseTime()));
             pst.setInt(4, t.getScheduleId());
-            pst.setInt(5, t.getStationOrderId());
             kq = pst.executeUpdate();
             Utils.Closeconn(con);
         } catch (Exception e) {
@@ -35,19 +34,19 @@ public class TicketDAO implements DAOInterface<Ticket> {
         }
         return kq;
     }
+
     @Override
     public int update(Ticket t) {
         int kq = 0;
         try {
             Connection con = Utils.Connectdb();
-            String sql = "UPDATE VE SET Gia=?, MaLoaiVe=?, ThoiDiemMua=?, MaLT=?, MaTT=? WHERE MaVe=?";
+            String sql = "UPDATE VE SET Gia=?, MaLoaiVe=?, ThoiDiemMua=?, MaLT=? WHERE MaVe=?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, t.getPrice());
             pst.setInt(2, t.getTicketTypeId());
             pst.setTimestamp(3, Timestamp.valueOf(t.getPurchaseTime()));
             pst.setInt(4, t.getScheduleId());
-            pst.setInt(5, t.getStationOrderId());
-            pst.setInt(6, t.getTicketId());
+            pst.setInt(5, t.getTicketId());
             kq = pst.executeUpdate();
             Utils.Closeconn(con);
         } catch (Exception e) {
@@ -55,6 +54,7 @@ public class TicketDAO implements DAOInterface<Ticket> {
         }
         return kq;
     }
+
     @Override
     public int delete(Ticket t) {
         int kq = 0;
@@ -70,6 +70,7 @@ public class TicketDAO implements DAOInterface<Ticket> {
         }
         return kq;
     }
+
     @Override
     public Ticket selectbyId(int id, String m) {
         Ticket t = null;
@@ -85,8 +86,7 @@ public class TicketDAO implements DAOInterface<Ticket> {
                     rs.getInt("Gia"),
                     rs.getInt("MaLoaiVe"),
                     rs.getTimestamp("ThoiDiemMua").toLocalDateTime(),
-                    rs.getInt("MaLT"),
-                    rs.getInt("MaTT")
+                    rs.getInt("MaLT")
                 );
             }
             Utils.Closeconn(con);
@@ -95,6 +95,7 @@ public class TicketDAO implements DAOInterface<Ticket> {
         }
         return t;
     }
+
     @Override
     public ArrayList<Ticket> selectAll() {
         ArrayList<Ticket> list = new ArrayList<>();
@@ -109,8 +110,7 @@ public class TicketDAO implements DAOInterface<Ticket> {
                     rs.getInt("Gia"),
                     rs.getInt("MaLoaiVe"),
                     rs.getTimestamp("ThoiDiemMua").toLocalDateTime(),
-                    rs.getInt("MaLT"),
-                    rs.getInt("MaTT")
+                    rs.getInt("MaLT")
                 );
                 list.add(t);
             }

@@ -4,18 +4,73 @@
  */
 package View;
 
+import Controller.SearchEmployee;
+import DAO.EmployeeDAO;
+import Model.Employee;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author admin
  */
-public class QLNV_GUI extends javax.swing.JFrame {
+public final class QLNV_GUI extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form QLNV_GUI
      */
+    private DefaultTableModel tblModel;
+    private ArrayList<Employee> emp = EmployeeDAO.getInstance().selectAll();;
+    
     public QLNV_GUI() {
         initComponents();
+        UIManager.put("Table.showVerticalLines", true);
+        BasicInternalFrameUI ui = (BasicInternalFrameUI) this.getUI();
+        ui.setNorthPane(null);
+        tblEmp.setDefaultEditor(Object.class, null);
+        initTable();
+        
+        loadDataToTable(emp);
     }
+    
+    public final void initTable() {
+        tblModel = new DefaultTableModel();
+        String[] headerTbl = new String[]{"Mã nhân viên", "Họ và tên", "Chức vụ", "Email", "Số điện thoại", "Lương", "Ngày vào làm", "Ca làm"};
+        tblModel.setColumnIdentifiers(headerTbl);
+        tblEmp.setModel(tblModel);
+    }
+    
+        public void loadDataToTable(ArrayList<Employee> emp) {
+        try {
+            tblModel.setRowCount(0);
+            for (Employee i : emp) {
+                tblModel.addRow(new Object[]{
+                    i.getEmpID(), i.getName(), i.getRole(), i.getEmail(), i.getPhoneNum(), i.getSalary(), i.getSWDay(), i.getPhase()
+                });
+            } 
+        } 
+        catch (Exception e) {
+        }
+    }
+    public Employee getEmpSelect() {
+        int i_row = tblEmp.getSelectedRow();
+        Object val = tblEmp.getValueAt(i_row, 0);
+        int value;
+
+        if (val instanceof Integer) {
+            value = (Integer) val;
+        } else {
+            value = Integer.parseInt(val.toString());
+        }
+        Employee e;
+        e = EmployeeDAO.getInstance().selectbyId(value, "");
+        return e;
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,53 +83,53 @@ public class QLNV_GUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        AddEmp = new javax.swing.JButton();
+        DeleteEmp = new javax.swing.JButton();
+        EditEmp = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jButton6 = new javax.swing.JButton();
+        cbxLuaChon = new javax.swing.JComboBox<>();
+        txtSearch = new javax.swing.JTextField();
+        btnReset = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblEmp = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Chức năng", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 18))); // NOI18N
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/add.png"))); // NOI18N
-        jButton1.setText("Thêm");
-        jButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        AddEmp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/add.png"))); // NOI18N
+        AddEmp.setText("Thêm");
+        AddEmp.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        AddEmp.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        AddEmp.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        AddEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                AddEmpActionPerformed(evt);
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/delete.png"))); // NOI18N
-        jButton2.setText("Xoá");
-        jButton2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        DeleteEmp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/delete.png"))); // NOI18N
+        DeleteEmp.setText("Xoá");
+        DeleteEmp.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        DeleteEmp.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        DeleteEmp.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        DeleteEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                DeleteEmpActionPerformed(evt);
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/fix.png"))); // NOI18N
-        jButton3.setText("Sửa");
-        jButton3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setRequestFocusEnabled(false);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        EditEmp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/fix.png"))); // NOI18N
+        EditEmp.setText("Sửa");
+        EditEmp.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        EditEmp.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        EditEmp.setRequestFocusEnabled(false);
+        EditEmp.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        EditEmp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                EditEmpActionPerformed(evt);
             }
         });
 
@@ -101,11 +156,11 @@ public class QLNV_GUI extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(AddEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(DeleteEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(EditEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -117,31 +172,41 @@ public class QLNV_GUI extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AddEmp, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                    .addComponent(DeleteEmp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(EditEmp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 18))); // NOI18N
 
-        jComboBox1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Mã nhân viên", "Họ tên", "Chức vụ", "Email", "Số điện thoại", "Lương", "Ngày vào làm", "Ca làm", " " }));
-
-        jTextField1.setFont(new java.awt.Font("Times New Roman", 2, 12)); // NOI18N
-        jTextField1.setText("Nhập thông tin để tìm kiếm");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        cbxLuaChon.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        cbxLuaChon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "Mã nhân viên", "Họ tên", "Chức vụ", " " }));
+        cbxLuaChon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                cbxLuaChonActionPerformed(evt);
             }
         });
 
-        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/refresh.png"))); // NOI18N
-        jButton6.setText("Làm mới");
-        jButton6.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        txtSearch.setFont(new java.awt.Font("Times New Roman", 2, 12)); // NOI18N
+        txtSearch.setText("Nhập thông tin để tìm kiếm");
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
+
+        btnReset.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/refresh.png"))); // NOI18N
+        btnReset.setText("Làm mới");
+        btnReset.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -149,25 +214,25 @@ public class QLNV_GUI extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbxLuaChon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(btnReset, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                .addGap(15, 15, 15))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxLuaChon, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblEmp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -178,7 +243,7 @@ public class QLNV_GUI extends javax.swing.JFrame {
                 "Mã nhân viên", "Họ tên", "Chức vụ", "Email", "Số điện thoại", "Lương", "Ngày vào làm", "Ca làm"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblEmp);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -187,11 +252,12 @@ public class QLNV_GUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,10 +275,10 @@ public class QLNV_GUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,25 +291,86 @@ public class QLNV_GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void AddEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddEmpActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        addEmp e;
+        e = new addEmp(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+        e.setVisible(true);
+    }//GEN-LAST:event_AddEmpActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void DeleteEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteEmpActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        if (tblEmp.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn nhân viên cần xoá !");
+        } else {
+            Employee select = getEmpSelect();
+            //JOptionPane.showMessageDialog(this, select.getEmpID());
+            if (select.getRole().equals("Admin")) {
+               JOptionPane.showMessageDialog(this, "Không thể xóa nhân viên admin !");
+            } else {
+                int checkVl = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa nhân viên này ?", "Xác nhận xóa nhân viên", JOptionPane.YES_NO_OPTION);
+                if (checkVl == JOptionPane.YES_OPTION) {
+                    try {
+                        EmployeeDAO.getInstance().delete(select);
+                        JOptionPane.showMessageDialog(this, "Xoá thành công tài khoản !");
+                        loadDataToTable(EmployeeDAO.getInstance().selectAll());
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Xoá thất bại !");
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_DeleteEmpActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+        String luachon = (String) cbxLuaChon.getSelectedItem();
+        String searchContent = txtSearch.getText();
+        ArrayList<Employee> result = new ArrayList<>();
+        switch (luachon) {
+            case "Tất cả":
+                result = SearchEmployee.getInstance().searchTatCaAcc(searchContent);
+                break;
+            case "Mã nhân viên":
+                result = SearchEmployee.getInstance().searchEmpID(searchContent);
+                break;
+            case "Họ tên":
+                result = SearchEmployee.getInstance().searchFullName(searchContent);
+                break;
+            case "Vai trò":
+                result = SearchEmployee.getInstance().searchRole(searchContent);
+                break;
+        }
+        loadDataToTable(result);       
+    }//GEN-LAST:event_txtSearchActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void EditEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditEmpActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+        if (tblEmp.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn tài khoản cần chỉnh sửa !");
+        } else {
+            if (getEmpSelect().getRole().equals("Admin")) {
+                JOptionPane.showMessageDialog(this, "Không thể sửa tài khoản admin tại đây !", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            } else {
+                SuaNhanVien u = new SuaNhanVien(this, (JFrame) javax.swing.SwingUtilities.getWindowAncestor(this), rootPaneCheckingEnabled);
+                u.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_EditEmpActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+        loadDataToTable(emp);
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void cbxLuaChonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxLuaChonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxLuaChonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -251,9 +378,6 @@ public class QLNV_GUI extends javax.swing.JFrame {
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -275,24 +399,53 @@ public class QLNV_GUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new QLNV_GUI().setVisible(true);
+                // 1. Tạo JFrame chính
+                javax.swing.JFrame mainFrame = new javax.swing.JFrame("Quản lý Nhân Viên");
+                mainFrame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+                mainFrame.setSize(1200, 700); // Đặt kích thước cho JFrame
+
+                // 2. Tạo JDesktopPane
+                javax.swing.JDesktopPane desktopPane = new javax.swing.JDesktopPane();
+                mainFrame.setContentPane(desktopPane);
+
+                // 3. Tạo instance của QLNV_GUI
+                QLNV_GUI internalFrame = new QLNV_GUI();
+                
+                // 4. Thêm JInternalFrame vào JDesktopPane
+                desktopPane.add(internalFrame);
+                
+                // 5. Đặt kích thước và vị trí cho JInternalFrame (nếu cần, pack() đã có trong constructor QLNV_GUI)
+                // internalFrame.setSize(500, 400); // Bạn có thể đặt kích thước cụ thể
+                // internalFrame.setLocation(10, 10);
+                // Hoặc để JInternalFrame chiếm hết JDesktopPane (nếu muốn)
+                // try {
+                //    internalFrame.setMaximum(true);
+                // } catch (java.beans.PropertyVetoException e) {
+                //    e.printStackTrace();
+                // }
+
+                // 6. Hiển thị JInternalFrame
+                internalFrame.setVisible(true);
+                
+                // 7. Hiển thị JFrame chính
+                mainFrame.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton AddEmp;
+    private javax.swing.JButton DeleteEmp;
+    private javax.swing.JButton EditEmp;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JComboBox<String> cbxLuaChon;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tblEmp;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }
